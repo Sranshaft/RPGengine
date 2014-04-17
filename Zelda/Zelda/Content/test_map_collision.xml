@@ -1,0 +1,134 @@
+﻿<?xml version="1.0"?>
+<ArrayOfTileCollision xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <TileCollision>
+    <PosX>0</PosX>
+    <PosY>0</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>1</PosX>
+    <PosY>0</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>2</PosX>
+    <PosY>0</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>3</PosX>
+    <PosY>0</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>4</PosX>
+    <PosY>0</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>5</PosX>
+    <PosY>0</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>6</PosX>
+    <PosY>0</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>7</PosX>
+    <PosY>0</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>8</PosX>
+    <PosY>0</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>9</PosX>
+    <PosY>0</PosY>
+  </TileCollision>
+
+  <TileCollision>
+    <PosX>0</PosX>
+    <PosY>1</PosY>
+  </TileCollision>
+
+  <TileCollision>
+    <PosX>9</PosX>
+    <PosY>1</PosY>
+  </TileCollision>
+
+  <TileCollision>
+    <PosX>0</PosX>
+    <PosY>2</PosY>
+  </TileCollision>
+
+  <TileCollision>
+    <PosX>0</PosX>
+    <PosY>3</PosY>
+  </TileCollision>
+
+  <TileCollision>
+    <PosX>9</PosX>
+    <PosY>3</PosY>
+  </TileCollision>
+
+  <TileCollision>
+    <PosX>0</PosX>
+    <PosY>4</PosY>
+  </TileCollision>
+
+  <TileCollision>
+    <PosX>1</PosX>
+    <PosY>4</PosY>
+  </TileCollision>
+
+  <TileCollision>
+    <PosX>9</PosX>
+    <PosY>4</PosY>
+  </TileCollision>
+
+  <TileCollision>
+    <PosX>0</PosX>
+    <PosY>5</PosY>
+  </TileCollision>
+
+  <TileCollision>
+    <PosX>9</PosX>
+    <PosY>5</PosY>
+  </TileCollision>
+
+  <TileCollision>
+    <PosX>0</PosX>
+    <PosY>7</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>1</PosX>
+    <PosY>7</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>2</PosX>
+    <PosY>7</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>3</PosX>
+    <PosY>7</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>4</PosX>
+    <PosY>7</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>5</PosX>
+    <PosY>7</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>6</PosX>
+    <PosY>7</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>7</PosX>
+    <PosY>7</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>8</PosX>
+    <PosY>7</PosY>
+  </TileCollision>
+  <TileCollision>
+    <PosX>9</PosX>
+    <PosY>7</PosY>
+  </TileCollision>
+</ArrayOfTileCollision>
