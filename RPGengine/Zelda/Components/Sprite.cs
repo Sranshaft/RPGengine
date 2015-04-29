@@ -11,7 +11,7 @@ namespace Zelda.Components
     class Sprite : Component
     {
         private Texture2D _texture;
-        private int _width, _height;
+        private int _width, _height, _depth;
         private bool _hasShadow;
 
         private float _rotation;
@@ -23,16 +23,21 @@ namespace Zelda.Components
         private Vector2 _origin;
         public Vector2 Origin { get { return _origin; } set { if (value != null) _origin = value; } }
 
+        private Vector2 _center;
+        public Vector2 Center { get { return Vector2.Add(_position, new Vector2(Global.TILE_SIZE / 2, Global.TILE_SIZE / 2)); } }
+
         public Rectangle Bounds { get { return new Rectangle((int)_position.X, (int)_position.Y, _width, _height); } }
 
-        public Sprite(Texture2D texture, int width, int height, Vector2 position, float rotation = 0, bool hasShadow = false)
+        public Sprite(Texture2D texture, int width, int height, Vector2 position, float rotation = 0, bool hasShadow = false, int depth = 0)
         {
             _texture = texture;
             _width = width;
             _height = height;
+            _depth = depth;
             _position = position;
             _rotation = rotation;
             _origin = Vector2.Zero;
+            _center = Vector2.Zero;
             _hasShadow = hasShadow;
         }
 
@@ -68,7 +73,7 @@ namespace Zelda.Components
             if (animation != null)
                 sourceRect = animation.TextureRectangle;
 
-            spriteBatch.Draw(_texture, destinationRect, sourceRect, Color.White, _rotation, _origin, SpriteEffects.None, 0);
+            spriteBatch.Draw(_texture, destinationRect, sourceRect, Color.White, _rotation, _origin, SpriteEffects.None, _depth);
         }
 
         public void DrawShadow(Vector2 position, SpriteBatch spriteBatch)
@@ -108,7 +113,7 @@ namespace Zelda.Components
             }
             else
             {
-                animation.ResetCounter(State.Standing, Direction.None);
+                animation.ResetCounter(State.Standing, animation.CurrentDirection);
                 return;
             }
         }

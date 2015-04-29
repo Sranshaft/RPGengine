@@ -38,7 +38,7 @@ namespace Zelda.Manager
             if (_position.Y > _movePosition.Y)
                 _position.Y -= _speed;
 
-            if (Manager.FunctionManager.Distance(_position, _movePosition) < 2)
+            if (Manager.FunctionManager.GetDistance(_position, _movePosition) < 2)
             {
                 _position = _movePosition;
             }

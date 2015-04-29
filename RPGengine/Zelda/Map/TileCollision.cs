@@ -12,7 +12,8 @@ namespace Zelda.Map
 {
     public class TileCollision
     {
-        public Manager.CameraManager CameraManager { get; set; }
+        private Manager.CameraManager _cameraManager;
+        public Manager.CameraManager CameraManager { get { return _cameraManager; } set { _cameraManager = value; } }
 
         public int PosX { get; set; }
         public int PosY { get; set; }
@@ -25,13 +26,13 @@ namespace Zelda.Map
 
         public TileCollision(Manager.CameraManager cameraManager)
         {
-            this.CameraManager = cameraManager;
+            _cameraManager = cameraManager;
         }
 
         public bool Intersect(Rectangle rect)
         {
-            var position = this.CameraManager.WorldToScreenPosition(this.Position);
-            return CameraManager.InScreenCheck(position) && rect.Intersects(new Rectangle((int)position.X, (int)position.Y, Global.TILE_SIZE, Global.TILE_SIZE));
+            var position = _cameraManager.WorldToScreenPosition(this.Position);
+            return _cameraManager.InScreenCheck(position) && rect.Intersects(new Rectangle((int)position.X, (int)position.Y, Global.TILE_SIZE, Global.TILE_SIZE));
         }
     }
 }

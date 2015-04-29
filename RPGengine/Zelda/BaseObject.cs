@@ -61,5 +61,18 @@ namespace Zelda
                 component.Draw(spriteBatch);
             }
         }
+
+        public bool Intersect(Rectangle rect, Vector2 pos, Manager.CameraManager cameraManager)
+        {
+            var position = cameraManager.WorldToScreenPosition(pos);
+            var rectanglePosition = new Vector2(rect.X, rect.Y);
+
+            if (position == rectanglePosition)
+                return false;
+
+            var collided = cameraManager.InScreenCheck(position) && rect.Intersects(new Rectangle((int)position.X, (int)position.Y, Global.TILE_SIZE, Global.TILE_SIZE));
+
+            return collided;
+        }
     }
 }

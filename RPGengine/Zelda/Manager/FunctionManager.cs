@@ -17,7 +17,7 @@ namespace Zelda.Manager
             return _rnd.Next(min, max);
         }
 
-        public static double Distance(Vector2 originPos, Vector2 destinationPos)
+        public static double GetDistance(Vector2 originPos, Vector2 destinationPos)
         {
             var x = Math.Pow(originPos.X - destinationPos.X, 2);
             var y = Math.Pow(originPos.Y - destinationPos.Y, 2);

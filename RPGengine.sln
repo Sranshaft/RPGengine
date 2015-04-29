@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zelda", "Zelda\Zelda\Zelda.csproj", "{D4F2580E-DB09-46F4-A867-05514C55A249}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zelda", "RPGengine\Zelda\Zelda.csproj", "{D4F2580E-DB09-46F4-A867-05514C55A249}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "ZeldaContent", "Zelda\ZeldaContent\ZeldaContent.contentproj", "{F5F50085-0C63-4D84-90F7-921723B7B5DB}"
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "ZeldaContent", "RPGengine\ZeldaContent\ZeldaContent.contentproj", "{F5F50085-0C63-4D84-90F7-921723B7B5DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

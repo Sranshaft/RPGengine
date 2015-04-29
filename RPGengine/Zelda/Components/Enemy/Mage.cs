@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Zelda.Components.Items;
+using Zelda.Manager;
 
 namespace Zelda.Components.Enemy
 {
@@ -41,10 +42,19 @@ namespace Zelda.Components.Enemy
                 // Reset counter
                 _previousRefreshTime = gameTime.TotalGameTime;
 
-                var equipment = GetComponent<Equipment>(ComponentType.Item);
+                var sprite = GetComponent<Sprite>(ComponentType.Sprite);
+                var playerSprite = _player.GetComponent<Sprite>(ComponentType.Sprite);
 
-                if (equipment != null)
-                    equipment.UseItem(ItemSlot.A);
+                if (sprite == null || playerSprite == null)
+                    return;
+
+                if (FunctionManager.GetDistance(sprite.Position, playerSprite.Position) < 100f)
+                {
+                    var equipment = GetComponent<Equipment>(ComponentType.Item);
+
+                    if (equipment != null)
+                        equipment.UseItem(ItemSlot.A);
+                }
             }
         }
 

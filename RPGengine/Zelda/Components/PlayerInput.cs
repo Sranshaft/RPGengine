@@ -69,6 +69,12 @@ namespace Zelda.Components
                         equipment.UseItem(ItemSlot.A);
                         break;
                     }
+                case Input.B:
+                    {
+                        var equipment = GetComponent<Equipment>(ComponentType.Item);
+                        equipment.UseItem(ItemSlot.B);
+                        break;
+                    }
             }
 
             var collision = GetComponent<Collision>(ComponentType.Collision);

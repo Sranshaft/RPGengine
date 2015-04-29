@@ -55,7 +55,7 @@ namespace Zelda.Manager
             if (tileCollision != null)
             {
                 _tileCollisions = tileCollision;
-                _tileCollisions.ForEach(t => t.CameraManager = _cameraManager);
+                _tileCollisions.ForEach(tile => tile.CameraManager = _cameraManager);
             }
         }
 

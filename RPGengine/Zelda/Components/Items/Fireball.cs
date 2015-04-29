@@ -16,7 +16,7 @@ namespace Zelda.Components.Items
         private TimeSpan _previousRefreshTime, _refreshTime;
         private TimeSpan _previousAnimationTime, _animationTime;
 
-        private const float _speed = 4f;
+        private const float _speed = 10f;
 
         public Fireball()
         {
@@ -30,10 +30,10 @@ namespace Zelda.Components.Items
             Texture2D texture = content.Load<Texture2D>(string.Format("Sprites//Projectile//fireball_{0}", Global.TILE_SIZE));
 
             AddComponent(new Sprite(texture, texture.Width, texture.Height, Vector2.Zero));
-            AddComponent(new Collision(mapManager));
+            AddComponent(owner.GetComponent<Component>(ComponentType.Collision));
             AddComponent(new Camera(cameraManager));
 
-            _refreshTime = TimeSpan.FromMilliseconds(1000);
+            _refreshTime = TimeSpan.FromMilliseconds(750);
             _previousRefreshTime = TimeSpan.Zero;
 
             _animationTime = TimeSpan.FromMilliseconds(100);
@@ -42,6 +42,9 @@ namespace Zelda.Components.Items
 
         public override void Update(GameTime gameTime)
         {
+            if (!this.Active)
+                return;
+
             base.Update(gameTime);
 
             _previousRefreshTime += gameTime.ElapsedGameTime;
@@ -52,7 +55,16 @@ namespace Zelda.Components.Items
             if (sprite == null)
                 return;
 
-            Move(sprite);
+            if (_previousRefreshTime > _refreshTime)
+            {
+                this.Active = false;
+                _previousRefreshTime = TimeSpan.Zero;
+                _previousAnimationTime = TimeSpan.Zero;
+            }
+            else
+            {
+                Move(sprite);
+            }
 
             if (_previousAnimationTime > _animationTime)
             {
@@ -64,11 +76,12 @@ namespace Zelda.Components.Items
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+            if (this.Active)
+                base.Draw(spriteBatch);
         }
 
         public override void Action()
-        {
+        {     
             var ownerAnimation = this.Owner.GetComponent<Animation>(ComponentType.Animation);
             var ownerSprite = this.Owner.GetComponent<Sprite>(ComponentType.Sprite);
 
@@ -83,7 +96,7 @@ namespace Zelda.Components.Items
 
             if (sprite != null)
             {
-                sprite.Teleport(ownerSprite.Position);
+                sprite.Teleport(ownerSprite.Center);
             }
 
             this.Active = true;
@@ -91,34 +104,47 @@ namespace Zelda.Components.Items
 
         public void Move(Sprite sprite)
         {
+            var x = 0f;
+            var y = 0f;
+
             // Move the fireball in the proper direction
             switch (_direction)
             {
                 case Direction.Up:
                     {
-                        sprite.Move(0, -_speed);
-
+                        y = -_speed;
                         break;
                     }
                 case Direction.Down:
                     {
-                        sprite.Move(0, _speed);
-
+                        y = _speed;
                         break;
                     }
                 case Direction.Left:
                     {
-                        sprite.Move(-_speed, 0);
-
+                        x = -_speed;
                         break;
                     }
                 case Direction.Right:
                     {
-                        sprite.Move(_speed, 0);
-
+                        x = _speed;
                         break;
                     }
             }
+
+            var collision = GetComponent<Collision>(ComponentType.Collision);
+
+            Rectangle spriteRectangle = sprite.Bounds;
+            spriteRectangle.Offset((int)x, (int)y);
+
+            if (collision == null || collision.CheckCollision(spriteRectangle, false))
+            {
+                this.Active = false;
+                _previousRefreshTime = TimeSpan.Zero;
+                _previousAnimationTime = TimeSpan.Zero;
+            }
+            else
+                sprite.Move(x, y);
         }
     }
 }

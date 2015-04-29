@@ -11,6 +11,7 @@ namespace Zelda.Components
     class Camera : Component
     {
         private Manager.CameraManager _cameraManager;
+        public Manager.CameraManager CameraManager { get { return _cameraManager; } }
 
         public Camera(Manager.CameraManager cameraManager)
         {

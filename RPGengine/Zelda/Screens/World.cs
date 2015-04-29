@@ -25,8 +25,8 @@ namespace Zelda.Screens
             : base(screenManager)
         {
             // Initialize managers
-            _entitiesManager = new Manager.EntitiesManager();
             _cameraManager = new Manager.CameraManager();
+            _entitiesManager = new Manager.EntitiesManager(_cameraManager);
             _mapManager = new Manager.MapManager("test", _cameraManager);
         }
 
@@ -54,30 +54,28 @@ namespace Zelda.Screens
 
             // Load player components
             var player = new BaseObject();
-            player.AddComponent(new Sprite(content.Load<Texture2D>(string.Format("Sprites//brawler_{0}", Global.TILE_SIZE)), Global.TILE_SIZE, Global.TILE_SIZE, new Vector2(64, 64), 0, true));
+            player.AddComponent(new Sprite(content.Load<Texture2D>(string.Format("Sprites//brawler_{0}", Global.TILE_SIZE)), Global.TILE_SIZE, Global.TILE_SIZE, new Vector2(64, 64), 0, true, 1));
             player.AddComponent(new PlayerInput());
             player.AddComponent(new Animation(Global.TILE_SIZE, Global.TILE_SIZE, 3));
-            player.AddComponent(new Collision(_mapManager));
+            player.AddComponent(new Collision(_mapManager, _entitiesManager));
             player.AddComponent(new Camera(_cameraManager));
             player.AddComponent(new Equipment(content, _mapManager, _cameraManager));
+            player.GetComponent<Equipment>(ComponentType.Item).AddItem(new Fireball());
+            player.GetComponent<Equipment>(ComponentType.Item).EquipItemInSlot("projectile:Fireball", ItemSlot.A);
             player.GetComponent<Equipment>(ComponentType.Item).AddItem(new Boomerang());
-            player.GetComponent<Equipment>(ComponentType.Item).EquipItemInSlot("projectile:Boomerang", ItemSlot.A);
-
-            _entitiesManager.AddEntity(player);
+            player.GetComponent<Equipment>(ComponentType.Item).EquipItemInSlot("projectile:Boomerang", ItemSlot.B);
 
             // Load test enemy components
             var enemy = new BaseObject();
             enemy.AddComponent(new Sprite(content.Load<Texture2D>(string.Format("Sprites//mage_{0}", Global.TILE_SIZE)), Global.TILE_SIZE, Global.TILE_SIZE, new Vector2(64, 128), 0, true));
-            enemy.AddComponent(new AIMovementRandom(1000, 2f));
+            enemy.AddComponent(new AIMovementSmart(player, 1000, 2f));
             enemy.AddComponent(new Animation(Global.TILE_SIZE, Global.TILE_SIZE, 3));
-            enemy.AddComponent(new Collision(_mapManager));
+            enemy.AddComponent(new Collision(_mapManager, _entitiesManager));
             enemy.AddComponent(new Mage(player, _mapManager, 500));
             enemy.AddComponent(new Camera(_cameraManager));
             enemy.AddComponent(new Equipment(content, _mapManager, _cameraManager));
             enemy.GetComponent<Equipment>(ComponentType.Item).AddItem(new Fireball());
             enemy.GetComponent<Equipment>(ComponentType.Item).EquipItemInSlot("projectile:Fireball", ItemSlot.A);
-
-            _entitiesManager.AddEntity(enemy);
 
             // Load text NPC components
             BaseObject npc;
@@ -86,14 +84,17 @@ namespace Zelda.Screens
             {
                 npc = new BaseObject();
 
-                npc.AddComponent(new Sprite(content.Load<Texture2D>(string.Format("Sprites//rogue_{0}", Global.TILE_SIZE)), Global.TILE_SIZE, Global.TILE_SIZE, new Vector2(64 * (i + 1), 128), 0, true));
+                npc.AddComponent(new Sprite(content.Load<Texture2D>(string.Format("Sprites//knight_{0}", Global.TILE_SIZE)), Global.TILE_SIZE, Global.TILE_SIZE, new Vector2(64 * (i + 1), 128), 0, true));
                 npc.AddComponent(new AIMovementRandom(2000, 1f));
                 npc.AddComponent(new Animation(Global.TILE_SIZE, Global.TILE_SIZE, 3, 500));
-                npc.AddComponent(new Collision(_mapManager));
+                npc.AddComponent(new Collision(_mapManager, _entitiesManager));
                 npc.AddComponent(new Camera(_cameraManager));
 
                 _entitiesManager.AddEntity(npc);
             }
+
+            _entitiesManager.AddEntity(enemy);
+            _entitiesManager.AddEntity(player);
         }
 
         public override void Update(GameTime gameTime)

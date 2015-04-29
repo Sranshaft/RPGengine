@@ -62,7 +62,8 @@ namespace Zelda.Manager
 
             CheckKeyState(Keys.Enter, Input.Enter);
             CheckKeyState(Keys.F5, Input.F5);
-            CheckKeyState(Keys.A, Input.A);
+            CheckKeyState(Keys.D1, Input.A);
+            CheckKeyState(Keys.D2, Input.B);
 
             // Check direction movement
 

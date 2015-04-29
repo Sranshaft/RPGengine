@@ -38,7 +38,7 @@ namespace Zelda.Components.Items
             Texture2D texture = content.Load<Texture2D>(string.Format("Sprites//Projectile//boomerang_{0}", Global.TILE_SIZE));
 
             AddComponent(new Sprite(texture, texture.Width, texture.Height, Vector2.Zero));
-            AddComponent(new Collision(mapManager));
+            AddComponent(owner.GetComponent<Component>(ComponentType.Collision));
             AddComponent(new Camera(cameraManager));
 
             _refreshTime = TimeSpan.FromMilliseconds(1000);
@@ -50,6 +50,9 @@ namespace Zelda.Components.Items
 
         public override void Update(GameTime gameTime)
         {
+            if (!this.Active)
+                return;
+
             base.Update(gameTime);
             
             _previousRefreshTime += gameTime.ElapsedGameTime;
@@ -91,7 +94,8 @@ namespace Zelda.Components.Items
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+            if (this.Active)
+                base.Draw(spriteBatch);
         }
 
         public override void Action()
@@ -111,7 +115,7 @@ namespace Zelda.Components.Items
             
             if (sprite != null)
             {
-                sprite.Teleport(ownerSprite.Position);
+                sprite.Teleport(ownerSprite.Center);
             }
 
             this.Active = true;
@@ -169,23 +173,28 @@ namespace Zelda.Components.Items
             {
                 this.Active = false;
                 _state = BoomerangState.Stop;
+
+                _previousRefreshTime = TimeSpan.Zero;
+                _previousAnimationTime = TimeSpan.Zero;
             }
 
-            if (Manager.FunctionManager.Distance(sprite.Position, ownerSprite.Position) < .5f)
+            if (Manager.FunctionManager.GetDistance(sprite.Center, ownerSprite.Center) < 50f)
             {
                 this.Active = false;
                 _state = BoomerangState.Stop;
+                _previousRefreshTime = TimeSpan.Zero;
+                _previousAnimationTime = TimeSpan.Zero;
 
                 return;
             }
 
-            if (ownerSprite.Position.X < sprite.Position.X)
+            if (ownerSprite.Center.X < sprite.Position.X)
                 sprite.Move(-_speed, 0);
-            if (ownerSprite.Position.X > sprite.Position.X)
+            if (ownerSprite.Center.X > sprite.Position.X)
                 sprite.Move(_speed, 0);
-            if (ownerSprite.Position.Y < sprite.Position.Y)
+            if (ownerSprite.Center.Y < sprite.Position.Y)
                 sprite.Move(0, -_speed);
-            if (ownerSprite.Position.Y > sprite.Position.Y)
+            if (ownerSprite.Center.Y > sprite.Position.Y)
                 sprite.Move(0, _speed);
         }
     }

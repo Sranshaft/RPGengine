@@ -5,6 +5,7 @@ using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Zelda.Manager;
 
 namespace Zelda.Components.Movement
 {
@@ -36,8 +37,9 @@ namespace Zelda.Components.Movement
         public override void Update(GameTime gameTime)
         {
             var sprite = GetComponent<Sprite>(ComponentType.Sprite);
+            var playerSprite = _player.GetComponent<Sprite>(ComponentType.Sprite);
 
-            if (sprite == null)
+            if (sprite == null || playerSprite == null)
                 return;
 
             var camera = GetComponent<Camera>(ComponentType.Camera);
@@ -46,44 +48,61 @@ namespace Zelda.Components.Movement
             if (!(camera != null && camera.GetPosition(sprite.Position, out position)))
                 return;
 
-             _previousRefreshTime += gameTime.ElapsedGameTime;
-
-             if (_previousRefreshTime > _refreshTime)
-                ChangeDirection();
-
             var collision = GetComponent<Collision>(ComponentType.Collision);
 
             var x = 0f;
             var y = 0f;
 
-            switch (_currentDirection)
+            if (FunctionManager.GetDistance(sprite.Position, playerSprite.Position) < 100f)
             {
-                case Direction.Up:
-                    {
-                        y = -_speed;
-                        break;
-                    }
-                case Direction.Down:
-                    {
-                        y = _speed;
-                        break;
-                    }
-                case Direction.Left:
-                    {
-                        x = -_speed;
-                        break;
-                    }
-                case Direction.Right:
-                    {
-                        x = _speed;
-                        break;
-                    }
-                case Direction.None:
-                    {
-                        x = 0;
-                        y = 0;
-                        break;
-                    }
+                if (playerSprite.Position.X > sprite.Position.X)
+                    x = _speed;
+
+                if (playerSprite.Position.X < sprite.Position.X)
+                    x = -_speed;
+
+                if (playerSprite.Position.Y > sprite.Position.Y)
+                    y = _speed;
+
+                if (playerSprite.Position.Y < sprite.Position.Y)
+                    y = -_speed;
+            }
+            else
+            {
+                _previousRefreshTime += gameTime.ElapsedGameTime;
+
+                if (_previousRefreshTime > _refreshTime)
+                    ChangeDirection();
+
+                switch (_currentDirection)
+                {
+                    case Direction.Up:
+                        {
+                            y = -_speed;
+                            break;
+                        }
+                    case Direction.Down:
+                        {
+                            y = _speed;
+                            break;
+                        }
+                    case Direction.Left:
+                        {
+                            x = -_speed;
+                            break;
+                        }
+                    case Direction.Right:
+                        {
+                            x = _speed;
+                            break;
+                        }
+                    case Direction.None:
+                        {
+                            x = 0;
+                            y = 0;
+                            break;
+                        }
+                }
             }
 
             Rectangle spriteRectangle = sprite.Bounds;

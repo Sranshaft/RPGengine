@@ -14,10 +14,12 @@ namespace Zelda.Manager
     class EntitiesManager
     {
         private List<BaseObject> _entities;
+        private Manager.CameraManager _cameraManager;
 
-        public EntitiesManager()
+        public EntitiesManager(Manager.CameraManager cameraManager)
         {
             _entities = new List<BaseObject>();
+            _cameraManager = cameraManager;
         }
 
         public void Update(GameTime gameTime)
@@ -49,6 +51,11 @@ namespace Zelda.Manager
         public void RemoveEntity(BaseObject obj)
         {
             _entities.Remove(obj);
+        }
+
+        public bool CheckCollision(Rectangle rectangle)
+        {
+            return _entities.Any(entity => entity.Intersect(rectangle, entity.GetComponent<Sprite>(ComponentType.Sprite).Position, entity.GetComponent<Camera>(ComponentType.Camera).CameraManager));
         }
     }
 }

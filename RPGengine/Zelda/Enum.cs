@@ -20,6 +20,7 @@ public enum CollisionType
 public enum Input
 {
     A,
+    B,
     Up,
     Down,
     Left,
